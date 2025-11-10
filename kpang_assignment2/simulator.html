@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Retro TV Simulator</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body class="index">
+    <div class="container">
+      <header>
+        <nav class="navbar">
+          <a href="/assignment2.html">HOME</a>
+        </nav>
+      </header>
+      <main>
+        <article>
+          <h2>Retro TV Simulator</h2>
+          <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.2/p5.min.js"></script>
+          <script>
+            let volume = 15;
+            let volumeP;
+            let currentImgNum = 0;
+            let imgNum = [];
+            let arrows;
+
+            function setup() {
+              noCanvas();
+
+              imgNum[0] = createImg("img/tvchannel1.png");
+              imgNum[1] = createImg("img/tvchannel2.png");
+              imgNum[2] = createImg("img/tvchannel3.png");
+              imgNum[0].addClass("channelChg");
+              imgNum[1].addClass("channelChg");
+              imgNum[2].addClass("channelChg");
+              imgNum[0].parent("frame");
+              imgNum[1].parent("frame");
+              imgNum[2].parent("frame");
+              arrows = createImg("img/arrowkeys.png");
+              arrows.parent("frame");
+              arrows.addClass("arrows");
+              volumeP = createP("Volume: " + volume);
+              volumeP.addClass("text");
+              volumeP.parent("television");
+              hideAllImgExcept(currentImgNum);
+            }
+
+            function keyPressed() {
+              if (keyCode === UP_ARROW) {
+                volume = min(volume + 1, 100);
+              } else if (keyCode === DOWN_ARROW) {
+                volume = max(volume - 1, 0);
+              }
+              volumeP.html("Volume: " + volume);
+
+              if (keyCode === LEFT_ARROW) {
+                currentImgNum = (currentImgNum + 1) % imgNum.length;
+              } else if (keyCode === RIGHT_ARROW) {
+                currentImgNum =
+                  (currentImgNum - 1 + imgNum.length) % imgNum.length;
+              }
+
+              hideAllImgExcept(currentImgNum);
+            }
+
+            function hideAllImgExcept(index) {
+              for (let c = 0; c < imgNum.length; c++) {
+                if (c === index) {
+                  imgNum[c].show();
+                } else {
+                  imgNum[c].hide();
+                }
+              }
+            }
+          </script>
+          <div id="television">
+            <div id="frame"></div>
+            <!-- tv stuff goes here -->
+          </div>
+
+          <p>
+            Click the button below to turn the TV on and off. Use your Up & Down
+            keys to adjust the volume. Use your Left & Right keys to change the
+            channels.
+          </p>
+          <a href="TVOFF.html" class="start">Power</a>
+        </article>
+      </main>
+      <br />
+      <footer>Copyright 2025 "Retro TV Simulator"</footer>
+    </div>
+  </body>
+</html>
